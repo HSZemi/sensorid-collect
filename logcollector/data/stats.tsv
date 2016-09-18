@@ -1,0 +1,41 @@
+sensor	totalcount	avg	min	max
+Invensense Light -Wakeup Secondary	20	1.0	1	1
+Invensense Magnetometer -Wakeup Secondary	11083	554.15	552	555
+Invensense Barometer	3660	183.0	182	184
+Invensense Gyroscope Uncalibrated -Wakeup Secondary	22281	1114.05	1113	1117
+Invensense Gravity-Wakeup Secondary	22321	1116.05	1116	1117
+Invensense Orientation	21701	1085.05	1084	1087
+Invensense Significant Motion Detector	0	0.0	0	0
+Invensense Geomagnetic Rotation Vector-Wakeup Secondary	22199	1109.95	1108	1112
+Invensense Tilt	0	0.0	0	0
+Invensense Proximity:Non Wakeup Secondary	20	1.0	1	1
+Invensense Gravity	22325	1116.25	1116	1120
+AK8973 3-axis Magnetic field sensor	7539	376.95	367	382
+Invensense Barometer -Wakeup Secondary	3663	183.15	182	184
+Invensense Magnetometer Uncalibrated -Wakeup Secondary	11086	554.3	553	555
+AK8973 Orientation sensor	1167	58.35	35	110
+BMA150 3-axis Accelerometer	5178	258.9	236	276
+Invensense Step Detector	0	0.0	0	0
+Invensense Linear Acceleration-Wakeup Secondary	22321	1116.05	1116	1117
+Invensense Magnetometer Uncalibrated	11083	554.15	553	556
+Invensense Accelerometer	22395	1119.75	1110	1125
+Invensense Gyroscope	22280	1114.0	1113	1115
+Invensense Rotation Vector-Wakeup Secondary	21680	1084.0	1084	1084
+Invensense Orientation-Wakeup Secondary	21687	1084.35	1083	1085
+Device Position Classifier	0	0.0	0	0
+CM3602 Proximity sensor	20	1.0	1	1
+Invensense Rotation Vector	21636	1081.8	1081	1082
+Invensense Geomagnetic Rotation Vector	22148	1107.4	1105	1109
+Invensense Step Counter-Wakeup Secondary	20	1.0	1	1
+Invensense Game Rotation Vector-Wakeup Secondary	22313	1115.65	1108	1117
+Invensense Linear Acceleration	22323	1116.15	1115	1118
+Invensense Game Rotation Vector	22322	1116.1	1116	1117
+CM3602 Light sensor	20	1.0	1	1
+Invensense Light	20	1.0	1	1
+Invensense Proximity	20	1.0	1	1
+Invensense Accelerometer -Wakeup Secondary	22215	1110.75	1110	1125
+Invensense Gyroscope -Wakeup Secondary	22277	1113.85	1113	1114
+Invensense Step Detector-Wakeup Secondary	0	0.0	0	0
+Invensense Step Counter	20	1.0	1	1
+Invensense Magnetometer	11081	554.05	552	556
+Invensense Gyroscope Uncalibrated	22278	1113.9	1113	1114

@@ -1,0 +1,15 @@
+package sensorid;
+option java_package = "de.hszemi.sensorid";
+
+message SensorDataMessage {
+  required string displayname = 1;
+  required string sensorname = 2;
+  repeated SensorReading sensorreading = 3;
+}
+
+message SensorReading {
+  required int64 timestamp = 1;
+  required float x = 2;
+  optional float y = 3;
+  optional float z = 4;
+}
