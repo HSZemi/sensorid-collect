@@ -1,0 +1,36 @@
+package sensorid;
+option java_package = "de.hszemi.sensorid_test";
+
+message FeatureVector {
+  required string sensortype = 1;
+  required string sensorname = 2;
+  required double mean_x = 3;
+  required double mean_y = 4;
+  required double mean_z = 5;
+  required double min_x = 6;
+  required double min_y = 7;
+  required double min_z = 8;
+  required double max_x = 9;
+  required double max_y = 10;
+  required double max_z = 11;
+  required double stddev_x = 12;
+  required double stddev_y = 13;
+  required double stddev_z = 14;
+  required double avgdev_x = 15;
+  required double avgdev_y = 16;
+  required double avgdev_z = 17;
+  required double skewness_x = 18;
+  required double skewness_y = 19;
+  required double skewness_z = 20;
+  required double kurtosis_x = 21;
+  required double kurtosis_y = 22;
+  required double kurtosis_z = 23;
+  required double rmsamplitude_x = 24;
+  required double rmsamplitude_y = 25;
+  required double rmsamplitude_z = 26;
+  required double count = 27;
+}
+
+message TestResult {
+  required string result_displayname = 1;
+}
