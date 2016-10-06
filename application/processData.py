@@ -94,15 +94,17 @@ def classes(directory):
 	with open(os.path.join(directory, 'sensortypes.json'), "w") as f:
 		print(json.dumps(sensors), file=f)
 
-def unify(directory):
+def unify(directory, silent=False):
 	alldata = {}
 
 	for element in os.listdir(directory):
 		if(os.path.isdir(os.path.join(directory, element))):
-			print("reading", element)
+			if not silent:
+				print("reading", element)
 			alldata[element] = []
 			for f in sorted(os.listdir(os.path.join(directory, element))):
-				print("opening", f)
+				if not silent:
+					print("opening", f)
 				with open(os.path.join(directory, element, f), "r") as inp:
 					csvfile = csv.DictReader(inp, delimiter="\t")
 					data = []
@@ -162,10 +164,8 @@ def extract(directory):
 						kurtosiss[index] = kurtosis(measurement['data'], index, meann[index], stddevv[index])
 						rmsamplitudee[index] = rmsamplitude(measurement['data'], index,)
 					
-					#normalizeddata[sensortype]['data'].append([meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'], avgdevv['x'], avgdevv['y'], avgdevv['z'], skewnesss['x'], skewnesss['y'], skewnesss['z'], kurtosiss['x'], kurtosiss['y'], kurtosiss['z'], rmsamplitudee['x'], rmsamplitudee['y'], rmsamplitudee['z'], len(measurement['data']) ])
-					normalizeddata[sensortype]['data'].append([meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'], len(measurement['data']) ])
-					#normalizeddata[sensortype]['data'].append([mean_x, mean_y, mean_z, max_x, max_y, max_z, min_x, min_y, min_z, var_x, var_y, var_z, count])
-					#normalizeddata[sensortype]['data'].append([mean_x, mean_y, mean_z])
+					normalizeddata[sensortype]['data'].append([len(measurement['data']), meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'], avgdevv['x'], avgdevv['y'], avgdevv['z'], skewnesss['x'], skewnesss['y'], skewnesss['z'], kurtosiss['x'], kurtosiss['y'], kurtosiss['z'], rmsamplitudee['x'], rmsamplitudee['y'], rmsamplitudee['z'] ])
+					#normalizeddata[sensortype]['data'].append([len(measurement['data']), meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'] ])
 					normalizeddata[sensortype]['target_sensor_name'].append(sensorname)
 					normalizeddata[sensortype]['target_device_id'].append(measurement['deviceid'])
 					totalcount += len(measurement['data'])
@@ -188,8 +188,11 @@ def main():
 	parser.add_argument('-u', '--unify', help='bring it into a nice format', action='store_true')
 	parser.add_argument('-x', '--extract', help='extract feature matrix', action='store_true')
 	parser.add_argument('-a', '--all', help='combination of classes, unify and extract', action='store_true')
+	parser.add_argument('-s', '--silent', help='suppress output', action='store_true')
 	parser.add_argument('target', help='target directory')
 	args = parser.parse_args()
+	
+	silent = args.silent
 
 
 	if(not os.path.isdir(args.target)):
@@ -202,18 +205,18 @@ def main():
 	if(args.unify):
 		if not os.path.isfile(os.path.join(args.target, 'sensortypes.json')):
 			classes(args.target)
-		unify(args.target)
+		unify(args.target, silent)
 	
 	if(args.extract):
 		if not os.path.isfile(os.path.join(args.target, 'sensortypes.json')):
 			classes(args.target)
 		if not os.path.isfile(os.path.join(args.target, 'measurements.json')):
-			unify(args.target)
+			unify(args.target, silent)
 		extract(args.target)
 		
 	if(args.all):
 		classes(args.target)
-		unify(args.target)
+		unify(args.target, silent)
 		extract(args.target)
 	
 if __name__ == "__main__":
