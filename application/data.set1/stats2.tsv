@@ -1,0 +1,61 @@
+sensor	totalcount	avg	min	max
+Invensense Geomagnetic Rotation Vector-Wakeup Secondary	62203	1110.767857142857	1103	1118
+Device Position Classifier	0	0.0	0	0
+Orientation Sensor	8552	213.8	0	434
+Orientation	40271	936.5348837209302	910	939
+Invensense Orientation	60611	1082.3392857142858	1078	1087
+Invensense Gyroscope Uncalibrated -Wakeup Secondary	62202	1110.75	1106	1117
+LGE Barometer Sensor	6220	148.0952380952381	148	149
+Invensense Game Rotation Vector	62327	1112.982142857143	1109	1117
+CM3602 Light sensor	40	1.0	1	1
+Invensense Gyroscope	64430	1110.8620689655172	1107	1115
+MPU-6050 Accelerometer	19497	487.425	458	495
+Invensense Significant Motion Detector	0	0.0	0	0
+LGE Light Sensor	337	7.837209302325581	2	21
+Invensense Rotation Vector	60432	1079.142857142857	1076	1082
+LGE Magnetometer Sensor	21213	246.6627906976744	245	248
+Invensense Light	58	1.0	1	1
+Significant Motion	0	0.0	0	0
+MPU-6050 Gyroscope	19332	483.3	454	501
+Invensense Step Detector-Wakeup Secondary	0	0.0	0	0
+CM3602 Proximity sensor	40	1.0	1	1
+AK8973 Orientation sensor	3071	76.775	35	137
+Invensense Tilt	0	0.0	0	0
+Invensense Barometer	13276	228.89655172413794	181	277
+Invensense Gravity	62336	1113.142857142857	1109	1120
+Invensense Geomagnetic Rotation Vector	62046	1107.9642857142858	1100	1113
+Invensense Magnetometer	32125	553.8793103448276	551	557
+Invensense Magnetometer Uncalibrated	32129	553.948275862069	551	557
+Invensense Accelerometer	65132	1122.9655172413793	1110	1133
+BMA150 3-axis Accelerometer	10541	263.525	236	308
+Invensense Step Detector	0	0.0	0	0
+Invensense Step Counter	56	1.0	1	1
+Invensense Rotation Vector-Wakeup Secondary	60565	1081.517857142857	1078	1085
+ALPS 3-axis Magnetic field sensor	19184	479.6	463	488
+Invensense Game Rotation Vector-Wakeup Secondary	62321	1112.875	1108	1117
+Invensense Orientation-Wakeup Secondary	60594	1082.0357142857142	1078	1086
+Rotation Vector	40303	937.2790697674419	934	939
+Invensense Linear Acceleration-Wakeup Secondary	62324	1112.9285714285713	1109	1117
+Invensense Magnetometer -Wakeup Secondary	31019	553.9107142857143	550	556
+Invensense Barometer -Wakeup Secondary	12829	229.08928571428572	181	277
+Invensense Magnetometer Uncalibrated -Wakeup Secondary	31028	554.0714285714286	550	557
+Invensense Proximity	58	1.0	1	1
+Invensense Gyroscope -Wakeup Secondary	62191	1110.5535714285713	1106	1114
+Gravity Sensor	8557	213.925	0	432
+Invensense Accelerometer -Wakeup Secondary	64871	1118.4655172413793	1110	1131
+Linear Acceleration Sensor	8555	213.875	0	433
+Invensense Gyroscope Uncalibrated	64420	1110.6896551724137	1107	1115
+Invensense Light -Wakeup Secondary	59	1.0535714285714286	1	4
+Game Rotation Vector	40339	938.1162790697674	935	940
+GP2A - Proximity Sensor	40	1.0	1	1
+LGE Gyroscope Sensor	79828	939.1529411764706	937	944
+Invensense Step Counter-Wakeup Secondary	56	1.0	1	1
+LGE Proximity Sensor	65	1.5116279069767442	1	5
+Rotation Vector Sensor	8580	214.5	0	435
+Invensense Linear Acceleration	62332	1113.0714285714287	1109	1118
+AK8973 3-axis Magnetic field sensor	15137	378.425	367	396
+LGE Accelerometer Sensor	40411	939.7906976744187	938	947
+Linear Acceleration	40318	937.6279069767442	931	941
+Gravity	40308	937.3953488372093	934	939
+Invensense Gravity-Wakeup Secondary	62332	1113.0714285714287	1109	1117
+Invensense Proximity:Non Wakeup Secondary	56	1.0	1	1

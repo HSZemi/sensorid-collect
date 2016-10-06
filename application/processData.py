@@ -101,7 +101,7 @@ def unify(directory):
 		if(os.path.isdir(os.path.join(directory, element))):
 			print("reading", element)
 			alldata[element] = []
-			for f in os.listdir(os.path.join(directory, element)):
+			for f in sorted(os.listdir(os.path.join(directory, element))):
 				print("opening", f)
 				with open(os.path.join(directory, element, f), "r") as inp:
 					csvfile = csv.DictReader(inp, delimiter="\t")
@@ -193,7 +193,7 @@ def main():
 
 
 	if(not os.path.isdir(args.target)):
-		print("Error: Target '' does not exist".format(args.target))
+		print("Error: Target '{}' does not exist".format(args.target))
 		sys.exit()
 	
 	if(args.classes):
