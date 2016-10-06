@@ -6,6 +6,7 @@ import signal
 import sys
 import os
 import json
+import argparse
 
 import TestData_pb2
 from google.protobuf.internal import encoder
@@ -16,7 +17,6 @@ import numpy as np
 
 HOST = ""
 PORT = 54322
-PATH = "data.old"
 GAMMA=0.001
 C=100.
 
@@ -29,11 +29,19 @@ def signal_handler(signal, frame):
 	sys.exit(0)
 
 def main():
+	parser = argparse.ArgumentParser(prog='testinterface')
+	parser.add_argument('target', help='target directory')
+	args = parser.parse_args()
+	
+	if(not os.path.isdir(args.target)):
+		print("Error: Target '{}' does not exist".format(args.target))
+		sys.exit()
+		
 	normalizeddata = {}
 	sensortypes = {}
-	with open(os.path.join(PATH, "normalizeddata.json"), "r") as f:
+	with open(os.path.join(args.target, "normalizeddata.json"), "r") as f:
 		normalizeddata = json.load(f)
-	with open(os.path.join(PATH, "enhancedsensors.json"), "r") as f:
+	with open(os.path.join(args.target, "enhancedsensors.json"), "r") as f:
 		sensortypes = json.load(f)
 		
 	classifiers = {}
