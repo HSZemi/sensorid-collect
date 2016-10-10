@@ -9,12 +9,13 @@ Collection
 
 *The app "Sensorid" provides the sensor readings for this step*
 
-    application/logcollector.py
+    application/logcollector.py <directory>
 
-logcollector.py listens on port 54321 for incoming data transmissions and stores the data in the directory 'application/data'.
+logcollector.py listens on port 54321 for incoming data transmissions and stores the data in the given directory.
 
 The data is organized in the scheme data/SENSOR_NAME/log-TIMESTAMP.csv.
 
+Command line arguments may set host and port to other values.
 
 Preprocessing
 -------------
@@ -48,14 +49,22 @@ Command line arguments may modify training set size and the area from which trai
 
 Command line arguments may specify output files for the statistics as csv file or cdf data for each sensor.
 
+A Command line argument may determine the subset of features used (where 1 is just the first feature, 
+2 the first two features, and so on).
+
 
 Identification
 --------------
 
 *The app "Sensorid-test" provides the feature vectors for this step and receives the prediction*
 
-    application/testinterface.py
+    application/testinterface.py <directory>
 
-Reads the prepared feature vectors and prepares classifiers for the different sensor types.
+Reads the prepared feature vectors and prepares classifiers for the different sensor types from the directory.
 
 Listens on port 54322 for incoming feature vectors, gets a prediction from the corresponding classifier, and returns the prediction to the requesting client.
+
+Command line arguments may set host and port to other values.
+
+A Command line argument may determine the subset of features used (where 1 is just the first feature, 
+2 the first two features, and so on).

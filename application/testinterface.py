@@ -32,12 +32,20 @@ def main():
 	parser = argparse.ArgumentParser(prog='testinterface')
 	parser.add_argument('--host', help='select the hostname to bind to', default="")
 	parser.add_argument('--port', help='select the port the application shall listen on', default=54322)
+	parser.add_argument('--limitfeatures', help='the features used for training and testing', action='store', default=None)
 	parser.add_argument('target', help='target directory')
 	args = parser.parse_args()
 	
 	if(not os.path.isdir(args.target)):
 		print("Error: Target '{}' does not exist".format(args.target))
 		sys.exit()
+	
+	limitfeatures = None
+	if(args.limitfeatures):
+		limitfeatures = int(args.limitfeatures)
+		if(limitfeatures < 1):
+			print("Error: limitfeatures must be > 0")
+			sys.exit()
 	
 	# Read enhanced sensor data and normalized data that have been created by processData.py
 	normalizeddata = {}
@@ -60,6 +68,11 @@ def main():
 		
 		# take the data from normalizeddata
 		data = np.matrix(normalizeddata[selected_sensor_type]['data'])
+		
+		if(limitfeatures and data.shape[1] >= limitfeatures):
+			print("Cutting feature vector at {}".format(limitfeatures))
+			data = data[:,[i for i in range(limitfeatures)]]
+		
 		#target_sensor_name = np.array(normalizeddata[selected_sensor_type]['target_sensor_name'])
 		target_device_id = np.array(normalizeddata[selected_sensor_type]['target_device_id'])
 
@@ -116,7 +129,11 @@ def main():
 		print(msg.sensorname)
 		
 		# create the (shortened) feature vector from the data in the FeatureVector message
-		feature_vector = [[msg.count, msg.mean_x, msg.mean_y, msg.mean_z, msg.min_x, msg.min_y, msg.min_z, msg.max_x, msg.max_y, msg.max_z, msg.stddev_x, msg.stddev_y, msg.stddev_z]]
+		feature_vector = [[msg.count, msg.mean_x, msg.mean_y, msg.mean_z, msg.min_x, msg.min_y, msg.min_z, msg.max_x, msg.max_y, msg.max_z, msg.stddev_x, msg.stddev_y, msg.stddev_z, msg.avgdev_x, msg.avgdev_y, msg.avgdev_z, msg.skewness_x, msg.skewness_y, msg.skewness_z, msg.kurtosis_x, msg.kurtosis_y, msg.kurtosis_z, msg.rmsamplitude_x, msg.rmsamplitude_y, msg.rmsamplitude_z]]
+		
+		if(limitfeatures):
+			print("Cutting feature vector at {}".format(limitfeatures))
+			feature_vector = [feature_vector[0][:limitfeatures]]
 		
 		prediction = ['NONE']
 		if msg.sensortype not in classifiers:
