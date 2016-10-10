@@ -15,35 +15,39 @@ from google.protobuf.internal import decoder
 from sklearn import svm
 import numpy as np
 
-HOST = ""
-PORT = 54322
 GAMMA=0.001
 C=100.
 
-SERVER = None
+server = None
+# default host: ""
+# default port: 54322
 
 def signal_handler(signal, frame):
-	print('You pressed Ctrl+C!')
-	global SERVER
-	SERVER.close()
+	print('\nYou pressed Ctrl+C!\nShutting down.')
+	global server
+	server.close()
 	sys.exit(0)
 
 def main():
 	parser = argparse.ArgumentParser(prog='testinterface')
+	parser.add_argument('--host', help='select the hostname to bind to', default="")
+	parser.add_argument('--port', help='select the port the application shall listen on', default=54322)
 	parser.add_argument('target', help='target directory')
 	args = parser.parse_args()
 	
 	if(not os.path.isdir(args.target)):
 		print("Error: Target '{}' does not exist".format(args.target))
 		sys.exit()
-		
+	
+	# Read enhanced sensor data and normalized data that have been created by processData.py
 	normalizeddata = {}
 	sensortypes = {}
 	with open(os.path.join(args.target, "normalizeddata.json"), "r") as f:
 		normalizeddata = json.load(f)
 	with open(os.path.join(args.target, "enhancedsensors.json"), "r") as f:
 		sensortypes = json.load(f)
-		
+	
+	# we will create a classifier for every sensor type in our data
 	classifiers = {}
 
 	for selected_sensor_type in sorted(sensortypes):
@@ -54,9 +58,9 @@ def main():
 			print("{0} ({1}), ".format(sensor, sensortypes[selected_sensor_type][sensor]), end="")
 		print("")
 		
-		
+		# take the data from normalizeddata
 		data = np.matrix(normalizeddata[selected_sensor_type]['data'])
-		target_sensor_name = np.array(normalizeddata[selected_sensor_type]['target_sensor_name'])
+		#target_sensor_name = np.array(normalizeddata[selected_sensor_type]['target_sensor_name'])
 		target_device_id = np.array(normalizeddata[selected_sensor_type]['target_device_id'])
 
 		print("Contains {0} devices: {1}".format(len(set(target_device_id)), ", ".join(set(target_device_id))))
@@ -65,28 +69,26 @@ def main():
 			print("skipping…\n\n")
 			continue
 	
-		#print(data.shape)
-		#print(target_sensor_name.shape)
-		#print(target_device_id.shape)
-		
+		# create and train the classifier
 		classifiers[selected_sensor_type] = svm.SVC(gamma=GAMMA, C=C)
 		classifiers[selected_sensor_type].fit(data, target_device_id)
 	
 	
-	global SERVER
-	SERVER = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	SERVER.bind((HOST, PORT))
-	SERVER.listen(1)
+	global server
+	server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	server.bind((args.host, args.port))
+	server.listen(1)
 
 	signal.signal(signal.SIGINT, signal_handler)
 
 	while True:
-		serverconn, addr = SERVER.accept()
+		serverconn, addr = server.accept()
 
-		print("Accepted!", addr)
+		print("Accepted:", addr)
 		
 		msg = TestData_pb2.FeatureVector()
 		
+		# read the message into messagebytes
 		messagebytes = bytearray()
 		firstloop = True
 		size = 0
@@ -95,6 +97,7 @@ def main():
 		while True:
 			buf = serverconn.recv(4096)
 			
+			# the first bytes tell us how long the actual message will be
 			if(firstloop):
 				(size, position) = decoder._DecodeVarint(buf, 0)
 				
@@ -105,29 +108,37 @@ def main():
 			if not buf or received >= (position + size):
 				break
 		print(len(messagebytes))
+		
+		# parse the FeatureVector from messagebytes (without the length)
 		msg.ParseFromString(bytes(messagebytes[position:position+size]))
 		
 		print(msg.sensortype)
 		print(msg.sensorname)
 		
-		feature_vector = [[msg.mean_x, msg.mean_y, msg.mean_z, msg.min_x, msg.min_y, msg.min_z, msg.max_x, msg.max_y, msg.max_z, msg.stddev_x, msg.stddev_y, msg.stddev_z, msg.count]]
+		# create the (shortened) feature vector from the data in the FeatureVector message
+		feature_vector = [[msg.count, msg.mean_x, msg.mean_y, msg.mean_z, msg.min_x, msg.min_y, msg.min_z, msg.max_x, msg.max_y, msg.max_z, msg.stddev_x, msg.stddev_y, msg.stddev_z]]
 		
 		prediction = ['NONE']
 		if msg.sensortype not in classifiers:
 			prediction = ['UNKNOWN_SENSOR_TYPE']
 		else:
+			# use the precomputed classifier to classify the feature vector
 			prediction = classifiers[msg.sensortype].predict(feature_vector)
 		
 		print(prediction)
 		
+		# create the TestResult message
 		retval = TestData_pb2.TestResult()
 		retval.result_displayname = ",".join(prediction)
 		
 		print("Sending guess: {}".format(retval.result_displayname))
 		
 		serializedMessage = retval.SerializeToString()
+		
+		# encode the message length
 		delimiter = encoder._VarintBytes(len(serializedMessage))
 		
+		# send encoding of message length + message back to client
 		serverconn.sendall((delimiter + serializedMessage))
 		
 		serverconn.close()

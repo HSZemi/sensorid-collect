@@ -7,7 +7,7 @@ import os
 import csv
 from features import *
 
-
+# create a mapping of all known sensor classes to all known sensor names
 def classes(directory):
 	sensors = {}
 
@@ -94,6 +94,8 @@ def classes(directory):
 	with open(os.path.join(directory, 'sensortypes.json'), "w") as f:
 		print(json.dumps(sensors), file=f)
 
+
+# read all csv files from directory and put the data in a neatly organized json file
 def unify(directory, silent=False):
 	alldata = {}
 
@@ -124,7 +126,9 @@ def unify(directory, silent=False):
 	with open(os.path.join(directory, "measurements.json"), "w") as f:
 		json.dump(alldata, f)
 
-
+# take the data from the neatly organized measurements.json and sensortypes.json files,
+# calculate the feature vectors and store them in normalizeddata.json,
+# store the number of data points alongside the sensor names in enhancedsensors.json.
 def extract(directory):
 	alldata = {}
 	sensortypes = {}
@@ -153,6 +157,7 @@ def extract(directory):
 					kurtosiss = {}
 					rmsamplitudee = {}
 					
+					# calculate the features for each dimension, using the methods from features.py
 					for index in ('x','y','z'):
 					
 						meann[index] = mean(measurement['data'], index)
@@ -165,7 +170,7 @@ def extract(directory):
 						rmsamplitudee[index] = rmsamplitude(measurement['data'], index,)
 					
 					normalizeddata[sensortype]['data'].append([len(measurement['data']), meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'], avgdevv['x'], avgdevv['y'], avgdevv['z'], skewnesss['x'], skewnesss['y'], skewnesss['z'], kurtosiss['x'], kurtosiss['y'], kurtosiss['z'], rmsamplitudee['x'], rmsamplitudee['y'], rmsamplitudee['z'] ])
-					#normalizeddata[sensortype]['data'].append([len(measurement['data']), meann['x'], meann['y'], meann['z'], minn['x'], minn['y'], minn['z'], maxx['x'], maxx['y'], maxx['z'], stddevv['x'], stddevv['y'], stddevv['z'] ])
+					
 					normalizeddata[sensortype]['target_sensor_name'].append(sensorname)
 					normalizeddata[sensortype]['target_device_id'].append(measurement['deviceid'])
 					totalcount += len(measurement['data'])
