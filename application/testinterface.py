@@ -78,7 +78,7 @@ def main():
 
 		print("Contains {0} devices: {1}".format(len(set(target_device_id)), ", ".join(set(target_device_id))))
 		
-		if(len(set(target_device_id)) < 1):
+		if(len(set(target_device_id)) < 2):
 			print("skipping…\n\n")
 			continue
 	
