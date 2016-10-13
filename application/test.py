@@ -9,6 +9,8 @@ import os
 import argparse
 
 def estimate(data, target, trainingsubset, testingsubset, gamma='auto', C=1):
+	if(len(set(target)) < 2): # only one class
+		return 0;
 	clf = svm.SVC(gamma=gamma, C=C)
 	clf.fit(data[trainingsubset], target[trainingsubset])
 	prediction = clf.predict(data[testingsubset])
